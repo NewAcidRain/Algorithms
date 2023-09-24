@@ -58,7 +58,7 @@ def parse_expression(expr: str) -> str:
     for key, value in enumerate(expr := expr.replace(" ", "")):
         if value.isalpha():
             raise Exception('Letters are not allowed')
-        if value.isdigit():
+        elif value.isdigit():
             if check_iteration >= key:
                 continue
             else:
@@ -78,6 +78,8 @@ def parse_expression(expr: str) -> str:
             while len(stack) > 0 and operations[stack[-1]] >= operations[value]:
                 output_string += stack.pop()
             stack.append(value)
+        else:
+            raise Exception("Value not allowed")
 
     for opertaion in stack:
         output_string += opertaion
