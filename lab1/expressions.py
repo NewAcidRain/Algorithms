@@ -50,7 +50,8 @@ def parse_expression(expr: str) -> str:
     output_string = ""
     check_iteration = 0
     stack = []
-    expr = expr.replace('pow', '').replace(',', '^')
+    if "pow(" in expr:
+        expr = expr.replace('pow', '').replace(',', '^')
     if expr[0] != "(" or expr[-1] != ")":
         expr = "(" + expr + ")"
     if expr.count("(") != expr.count(")"):
