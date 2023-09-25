@@ -50,12 +50,22 @@ def parse_expression(expr: str) -> str:
     output_string = ""
     check_iteration = 0
     stack = []
+    numbers = []
+    operators = []
     if "pow(" in expr:
         expr = expr.replace('pow', '').replace(',', '^')
     if expr[0] != "(" or expr[-1] != ")":
         expr = "(" + expr + ")"
     if expr.count("(") != expr.count(")"):
         raise Exception("Number of brackets does not match")
+    for key, value in enumerate(expr):
+        if value.isdigit():
+            numbers.append(value)
+        elif (value != "(" and value != ")") and not value.isdigit() and expr[key+1] != "(":
+            operators.append(value)
+    print(len(numbers), len(operators))
+    if not (len(numbers) >= len(operators)):
+        raise Exception("Invalid input")
     for key, value in enumerate(expr := expr.replace(" ", "")):
         if value.isalpha():
             raise Exception('Letters are not allowed')
