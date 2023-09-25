@@ -25,7 +25,14 @@ def calculate(expr: str):
             number_fucntion = get_number(expr=expr, pos=key)
             number = number_fucntion['number']
             check_iteration += number_fucntion['iteration']
-            numbers_stack.append(int(number))
+            try:
+                numbers_stack.append(int(number))
+            except ValueError:
+                numbers_stack.append(float(number))
+        elif value == "." and not expr[key-1].isdigit() and expr[key+1].isdigit():
+            number_fucntion = get_number(expr=expr, pos=key+1)
+            numbers_stack.append(float(f".{number_fucntion['number']}"))
+            check_iteration += number_fucntion['iteration']
         elif value in operations.keys():
             counter += 1
             if (value == "~"):
@@ -47,6 +54,7 @@ def calculate(expr: str):
 
 
 def parse_expression(expr: str) -> str:
+    expr = expr.replace(" ", "")
     output_string = ""
     check_iteration = 0
     stack = []
@@ -54,23 +62,24 @@ def parse_expression(expr: str) -> str:
     operators = []
     if "pow(" in expr:
         expr = expr.replace('pow', '').replace(',', '^')
+    if expr.startswith('.'):
+        expr = "0" + expr
     if expr[0] != "(" or expr[-1] != ")":
         expr = "(" + expr + ")"
     if expr.count("(") != expr.count(")"):
         raise Exception("Number of brackets does not match")
-    for key, value in enumerate(expr):
+    for key, value in enumerate(expr.replace(".", "")):
         if value.isdigit():
             numbers.append(value)
-        elif (value != "(" and value != ")") and not value.isdigit() and expr[key+1] != "(":
+        elif (value != "(" and value != ")") and not value.isdigit() and expr[key+1] != "(" or value != ".":
             operators.append(value)
-    print(len(numbers), len(operators))
     if not (len(numbers) >= len(operators)):
         raise Exception("Invalid input")
-    for key, value in enumerate(expr := expr.replace(" ", "")):
+    for key, value in enumerate(expr):
         if value.isalpha():
             raise Exception('Letters are not allowed')
-        elif value.isdigit():
-            if check_iteration >= key:
+        elif value.isdigit() or value == ".":
+            if check_iteration >= key or value == ".":
                 continue
             else:
                 check_iteration = 0
@@ -89,6 +98,9 @@ def parse_expression(expr: str) -> str:
             while len(stack) > 0 and operations[stack[-1]] >= operations[value]:
                 output_string += stack.pop()
             stack.append(value)
+        # elif value == "." and expr[key-1].isdigit() and expr[key-1] not in operations.keys():
+        #     print('in')
+        #     output_string += "."
         else:
             raise Exception("Value not allowed")
 

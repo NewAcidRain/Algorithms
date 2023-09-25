@@ -5,10 +5,18 @@ from typing import Union
 
 def get_number(expr: str, pos: int) -> str:
     number = ""
+    dot_count = 0
     while pos < len(expr):
         if expr[pos].isdigit():
             number += expr[pos]
             pos += 1
+        elif expr[pos] == ".":
+            if dot_count == 0:
+                number += "."
+                pos += 1
+                dot_count += 1
+            else:
+                raise Exception("Too much dots")
         else:
             break
 
