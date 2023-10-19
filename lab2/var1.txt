@@ -1,0 +1,52 @@
+q0,a=q2
+q0,b=q1
+q1,a=q3
+q2,a=q3
+q2,b=q3
+q3, =q3
+q3,+=q4
+q4, =q4
+q4,c=q5
+q5,d=q6
+q6, =q6
+q6,*=q7
+q7, =q7
+q7,==q10
+q7,e=q8
+q8,e=q8
+q8,==q10
+q8, =q9
+q9, =q10
+q9,==q10
+q10,3=q11
+q11,5=q12
+q12, =f0
+
+;aa+cd*=35
+;ab+cd*=35
+;ba+cd*=35
+;aa+cd*e35
+;ab+cd*e35
+;ba+cd*e35
+;aa+cd*eeee=35
+;aa+cd*eeee=35
+;ab+cd*eeee=35
+;ab+cd*e=35
+;ba+cd*e=35
+;ba+cd*e=35
+
+;DOWN IS WRONG
+;
+;aa+cd*=3
+;ab+cd*=3
+;ba+cd*=3
+;aa+cd*e3
+;ab+cd*e3
+;ba+cd*e3
+;aa+cd*eeee=3
+;aa+cd*eeee=3
+;ab+cd*eeee=3
+;ab+cd*e=3
+;ba+cd*e=3
+;ba+cd*e=3
+;c
