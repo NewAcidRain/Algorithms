@@ -66,42 +66,15 @@ class StateMachine:
         if not is_new:
             table = PrettyTable(
                 field_names=["STATE", "SYMBOL", "DESTINATION STATE"])
-            graph = {}
             for transition in self.transitions:
-                if (transition.from_state.name, transition.to_state.name) in graph:
-                    graph[(transition.from_state.name, transition.to_state.name)
-                          ]["label"] += "," + transition.symbol
-                else:
-                    graph[(transition.from_state.name, transition.to_state.name)] = {
-                        "label": transition.symbol,
-                        "color": transition.color,
-                        "font": {"size": 20},
-                    }
                 table.add_row([transition.from_state.name,
                               transition.symbol, transition.to_state.name])
         else:
-            self.graph.add_nodes(
-                list(self.new_states.keys()),
-                shape=["circle"] * len(self.new_states),
-                color=list(map(lambda i: i.color, self.new_states.values())),
-            )
             table = PrettyTable(
                 field_names=["STATE", "SYMBOL", "DESTINATION STATE"])
-            graph = {}
             for transition in self.new_transitions:
-                if (transition.from_state.name, transition.to_state.name) in graph:
-                    graph[(transition.from_state.name, transition.to_state.name)
-                          ]["label"] += "," + transition.symbol
-                else:
-                    graph[(transition.from_state.name, transition.to_state.name)] = {
-                        "label": transition.symbol,
-                        "color": transition.color,
-                        "font": {"size": 20},
-                    }
                 table.add_row([transition.from_state.name,
-                              transition.symbol, transition.to_state.name])
-        for edge, options in graph.items():
-            self.graph.add_edge(*edge, **options)
+                               transition.symbol, transition.to_state.name])
         print(table)
 
     def determine(self) -> bool:
@@ -175,7 +148,7 @@ class StateMachine:
                 for state in self.new_states.values()
             ]
         ):
-            for name, state in list(self.new_states.items()).copy():
+            for _, state in list(self.new_states.items()).copy():
                 if (state.is_sink and not state.is_final) or (state.is_unreachable and not state.is_initial):
                     self.__delete_state(state, True)
                 else:
