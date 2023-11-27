@@ -59,14 +59,6 @@ class Parser:
         instance.__build_parsing_table()
         return instance
 
-    def print_all_firsts(self):
-        for key, nonterminal in self.nonterminals.items():
-            logger.info(f"FIRST({key}) => {nonterminal.first(self.nonterminals)}")
-
-    def print_all_follows(self):
-        for key, nonterminal in self.nonterminals.items():
-            logger.info(f"FOLLOW({key}) => {nonterminal.follow(self.nonterminals)}")
-
     def _parse_string(self, string: str) -> tuple[str | None, list[str] | None]:
         """
         Picks nonterminal and rules from string. Returns list of raw expressions
